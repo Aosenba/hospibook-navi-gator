@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 210 100% 52%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 204 94% 94%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 204 94% 94%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -32,22 +33,15 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.8rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +90,53 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-medical-gray text-medical-text antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-sm;
+  }
+  
+  .page-transition-container {
+    @apply min-h-screen w-full overflow-hidden;
+  }
+  
+  .page-enter {
+    @apply animate-fade-in;
+  }
+
+  .medical-chip {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-sm font-medium bg-medical-blue-light text-medical-blue;
+  }
+  
+  .location-item {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  .location-item:hover {
+    @apply bg-medical-blue-light/50;
+  }
+  
+  .appointment-slot {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  .appointment-slot:hover:not(.appointment-slot-booked) {
+    @apply bg-medical-blue/10;
+  }
+  
+  .appointment-slot-booked {
+    @apply bg-muted/50 text-muted-foreground cursor-not-allowed;
+  }
+  
+  .appointment-slot-selected {
+    @apply bg-medical-blue text-white;
   }
 }
