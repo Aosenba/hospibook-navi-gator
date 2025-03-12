@@ -48,10 +48,12 @@ const Appointments = () => {
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center text-medical-blue hover:underline">
-              <ArrowLeft className="h-5 w-5 mr-1" />
-              <span>Back to Hospitals</span>
-            </Link>
+            <div className="flex items-center">
+              <Link to="/" className="flex items-center text-medical-blue hover:underline">
+                <ArrowLeft className="h-5 w-5 mr-1" />
+                <span>Back to Hospitals</span>
+              </Link>
+            </div>
             
             <nav className="flex space-x-4">
               <Link to="/" className="text-muted-foreground hover:text-medical-blue transition-colors">
@@ -60,6 +62,9 @@ const Appointments = () => {
               <Link to="/appointments" className="text-medical-blue font-medium hover:underline">
                 My Appointments
               </Link>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin">Admin Portal</Link>
+              </Button>
             </nav>
           </div>
         </div>
