@@ -1,104 +1,181 @@
-
-import { useState } from 'react';
-import { getFilteredHospitals } from '@/lib/data';
-import LocationFilter from '@/components/LocationFilter';
-import HospitalCard from '@/components/HospitalCard';
-import { Building, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  getUniqueStates,
+  getUniqueCities,
+  getUniqueLocalities,
+  getFilteredHospitals,
+  hospitals as hospitalsData,
+  Hospital
+} from '@/lib/data';
+import HospitalCard from '@/components/HospitalCard';
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Button } from '@/components/ui/button';
 
 const Index = () => {
-  const [filteredHospitals, setFilteredHospitals] = useState(getFilteredHospitals());
-  const [searchQuery, setSearchQuery] = useState('');
+  const [states, setStates] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
+  const [localities, setLocalities] = useState<string[]>([]);
+  const [selectedState, setSelectedState] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedLocality, setSelectedLocality] = useState<string>('');
+  const [hospitals, setHospitals] = useState<Hospital[]>(hospitalsData);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   
-  const handleFilterChange = (state: string | null, city: string | null, locality: string | null) => {
-    const hospitals = getFilteredHospitals(state || undefined, city || undefined, locality || undefined);
-    
+  useEffect(() => {
+    const uniqueStates = getUniqueStates();
+    setStates(uniqueStates);
+  }, []);
+  
+  useEffect(() => {
+    if (selectedState) {
+      const uniqueCities = getUniqueCities(selectedState);
+      setCities(uniqueCities);
+      setSelectedCity('');
+      setSelectedLocality('');
+    } else {
+      setCities([]);
+      setLocalities([]);
+      setSelectedCity('');
+      setSelectedLocality('');
+    }
+  }, [selectedState]);
+  
+  useEffect(() => {
+    if (selectedState && selectedCity) {
+      const uniqueLocalities = getUniqueLocalities(selectedState, selectedCity);
+      setLocalities(uniqueLocalities);
+      setSelectedLocality('');
+    } else {
+      setLocalities([]);
+      setSelectedLocality('');
+    }
+  }, [selectedState, selectedCity]);
+  
+  useEffect(() => {
+    const filteredHospitals = getFilteredHospitals(selectedState, selectedCity, selectedLocality);
+    setHospitals(filteredHospitals);
+  }, [selectedState, selectedCity, selectedLocality]);
+  
+  useEffect(() => {
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      const filtered = hospitals.filter(hospital => 
-        hospital.name.toLowerCase().includes(query) ||
-        hospital.specialties.some(specialty => specialty.toLowerCase().includes(query))
+      const filteredHospitals = hospitalsData.filter(hospital =>
+        hospital.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredHospitals(filtered);
+      setHospitals(filteredHospitals);
     } else {
-      setFilteredHospitals(hospitals);
+      const filteredHospitals = getFilteredHospitals(selectedState, selectedCity, selectedLocality);
+      setHospitals(filteredHospitals);
     }
-  };
-  
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    
-    if (query) {
-      const filtered = filteredHospitals.filter(hospital => 
-        hospital.name.toLowerCase().includes(query.toLowerCase()) ||
-        hospital.specialties.some(specialty => specialty.toLowerCase().includes(query.toLowerCase()))
-      );
-      setFilteredHospitals(filtered);
-    } else {
-      handleFilterChange(null, null, null);
-    }
-  };
-  
+  }, [searchQuery, selectedState, selectedCity, selectedLocality]);
+
   return (
     <div className="min-h-screen bg-medical-gray">
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div className="mb-4 sm:mb-0">
-              <Link to="/" className="text-2xl font-medium text-medical-blue flex items-center">
-                <Building className="h-6 w-6 mr-2" />
-                MediAppoint
-              </Link>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <h1 className="text-xl font-medium text-medical-blue mr-6">Hospital Finder</h1>
+              <nav className="hidden md:flex space-x-4">
+                <Link to="/" className="text-medical-blue font-medium hover:underline">
+                  Hospitals
+                </Link>
+                <Link to="/appointments" className="text-muted-foreground hover:text-medical-blue transition-colors">
+                  My Appointments
+                </Link>
+              </nav>
             </div>
             
-            <nav className="flex space-x-4">
-              <Link to="/" className="text-medical-blue font-medium hover:underline">
-                Hospitals
-              </Link>
-              <Link to="/appointments" className="text-muted-foreground hover:text-medical-blue transition-colors">
-                My Appointments
-              </Link>
-            </nav>
+            <div className="flex items-center space-x-4">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin">Admin Portal</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
       
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="md:w-1/3 lg:w-1/4">
-            <LocationFilter onFilterChange={handleFilterChange} />
-          </div>
+        <div className="glass-card rounded-lg p-6 mb-8 animate-scale-in">
+          <h2 className="text-2xl font-medium mb-2">Find a Hospital</h2>
+          <p className="text-muted-foreground">
+            Search for hospitals by location or name
+          </p>
           
-          <div className="md:w-2/3 lg:w-3/4">
-            <div className="mb-6">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input
-                  placeholder="Search hospitals by name or specialty"
-                  className="pl-10 h-12 bg-white"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+            <div>
+              <Label htmlFor="search">Search by name</Label>
+              <Input 
+                type="search" 
+                id="search" 
+                placeholder="Enter hospital name" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
             
-            {filteredHospitals.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredHospitals.map((hospital) => (
-                  <HospitalCard key={hospital.id} hospital={hospital} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16 glass-card rounded-lg">
-                <h3 className="text-xl font-medium mb-2">No hospitals found</h3>
-                <p className="text-muted-foreground">
-                  Try adjusting your filters or search query
-                </p>
-              </div>
-            )}
+            <div>
+              <Label htmlFor="state">State</Label>
+              <Select value={selectedState} onValueChange={setSelectedState}>
+                <SelectTrigger id="state">
+                  <SelectValue placeholder="Select a state" />
+                </SelectTrigger>
+                <SelectContent>
+                  {states.map((state) => (
+                    <SelectItem key={state} value={state}>
+                      {state}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="city">City</Label>
+              <Select value={selectedCity} onValueChange={setSelectedCity} disabled={!selectedState}>
+                <SelectTrigger id="city">
+                  <SelectValue placeholder="Select a city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {cities.map((city) => (
+                    <SelectItem key={city} value={city}>
+                      {city}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="locality">Locality</Label>
+              <Select value={selectedLocality} onValueChange={setSelectedLocality} disabled={!selectedCity}>
+                <SelectTrigger id="locality">
+                  <SelectValue placeholder="Select a locality" />
+                </SelectTrigger>
+                <SelectContent>
+                  {localities.map((locality) => (
+                    <SelectItem key={locality} value={locality}>
+                      {locality}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {hospitals.map((hospital) => (
+            <HospitalCard key={hospital.id} hospital={hospital} />
+          ))}
         </div>
       </main>
     </div>

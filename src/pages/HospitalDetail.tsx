@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getHospitalById, AppointmentSlot } from '@/lib/data';
@@ -47,6 +46,9 @@ const HospitalDetail = () => {
               <Link to="/appointments" className="text-muted-foreground hover:text-medical-blue transition-colors">
                 My Appointments
               </Link>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin">Admin Portal</Link>
+              </Button>
             </nav>
           </div>
         </div>
