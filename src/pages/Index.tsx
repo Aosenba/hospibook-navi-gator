@@ -49,7 +49,7 @@ const Index = () => {
             <div className="mb-4 sm:mb-0">
               <Link to="/" className="text-2xl font-medium text-medical-blue flex items-center">
                 <Building className="h-6 w-6 mr-2" />
-                MediAppoint
+                Medippoint
               </Link>
             </div>
             
