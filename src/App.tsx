@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
 import HospitalManagement from "./pages/admin/HospitalManagement";
 import AppointmentManagement from "./pages/admin/AppointmentManagement";
+import ReceptionConsole from "./pages/admin/ReceptionConsole";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/hospitals" element={<HospitalManagement />} />
           <Route path="/admin/appointments" element={<AppointmentManagement />} />
+          <Route path="/admin/reception" element={<ReceptionConsole />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>

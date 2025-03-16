@@ -9,7 +9,8 @@ import {
   X, 
   LogOut, 
   Settings, 
-  Home
+  Home,
+  UserCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -37,6 +38,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       name: 'Appointments',
       href: '/admin/appointments',
       icon: Calendar,
+    },
+    {
+      name: 'Reception Console',
+      href: '/admin/reception',
+      icon: UserCheck,
     },
     {
       name: 'Settings',
