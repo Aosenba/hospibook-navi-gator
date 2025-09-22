@@ -101,7 +101,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             </div>
             <div className="mt-4 space-y-1">
               <Link
-                to="/"
+                to="/hospibook-navi-gator"
                 className="flex items-center px-4 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <Home className="h-4 w-4 mr-3" />
@@ -137,7 +137,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             <h1 className="text-lg font-medium lg:hidden">Hospital Admin</h1>
             
             <div className="flex items-center space-x-2">
-              <Link to="/" className="text-sm text-medical-blue hover:underline hidden sm:block">
+              <Link to="/hospibook-navi-gator" className="text-sm text-medical-blue hover:underline hidden sm:block">
                 <Home className="h-4 w-4 inline-block mr-1" />
                 Patient Portal
               </Link>

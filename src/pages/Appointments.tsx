@@ -49,14 +49,14 @@ const Appointments = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center text-medical-blue hover:underline">
+              <Link to="/hospibook-navi-gator" className="flex items-center text-medical-blue hover:underline">
                 <ArrowLeft className="h-5 w-5 mr-1" />
                 <span>Back to Hospitals</span>
               </Link>
             </div>
             
             <nav className="flex space-x-4">
-              <Link to="/" className="text-muted-foreground hover:text-medical-blue transition-colors">
+              <Link to="/hospibook-navi-gator" className="text-muted-foreground hover:text-medical-blue transition-colors">
                 Hospitals
               </Link>
               <Link to="/appointments" className="text-medical-blue font-medium hover:underline">

@@ -85,7 +85,7 @@ const Index = () => {
             <div className="flex items-center">
               <h1 className="text-xl font-medium text-medical-blue mr-6">Hospital Finder</h1>
               <nav className="hidden md:flex space-x-4">
-                <Link to="/" className="text-medical-blue font-medium hover:underline">
+                <Link to="/hospibook-navi-gator" className="text-medical-blue font-medium hover:underline">
                   Hospitals
                 </Link>
                 <Link to="/appointments" className="text-muted-foreground hover:text-medical-blue transition-colors">

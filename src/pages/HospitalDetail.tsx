@@ -17,7 +17,7 @@ const HospitalDetail = () => {
   useEffect(() => {
     if (!hospital) {
       toast.error('Hospital not found');
-      navigate('/');
+      navigate('/hospibook-navi-gator');
     }
   }, [hospital, navigate]);
   
@@ -34,13 +34,13 @@ const HospitalDetail = () => {
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center text-medical-blue hover:underline">
+            <Link to="/hospibook-navi-gator" className="flex items-center text-medical-blue hover:underline">
               <ArrowLeft className="h-5 w-5 mr-1" />
               <span>Back to Hospitals</span>
             </Link>
             
             <nav className="flex space-x-4">
-              <Link to="/" className="text-muted-foreground hover:text-medical-blue transition-colors">
+              <Link to="/hospibook-navi-gator" className="text-muted-foreground hover:text-medical-blue transition-colors">
                 Hospitals
               </Link>
               <Link to="/appointments" className="text-muted-foreground hover:text-medical-blue transition-colors">
