@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://aosenba.github.io/",
+  "homepage": "https://aosenba.github.io/hospibook-navi-gator",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

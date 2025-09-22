@@ -25,7 +25,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           {/* Patient routes */}
-          <Route path="/" element={<Index />} />
+          <Route path="/hospibook-navi-gator/" element={<Index />} />
           <Route path="/hospital/:id" element={<HospitalDetail />} />
           <Route path="/appointments" element={<Appointments />} />
           
